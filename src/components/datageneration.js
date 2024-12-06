@@ -128,15 +128,23 @@ export default function DataGeneration() {
 
     // Send the FormData (which includes the Blob as a file) using fetch
     // Using Promises
-      apiClient.post('/data_generation/upload', formData)
-      .then(response => {
-        console.log('Success:', response.data);
-        setMessage('file now available in EDA');
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        setMessage('could not send file');
-      });
+    apiClient.post(
+      "/eda/upload",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    )
+    .then(response => {
+      console.log('Success:', response.data);
+      setMessage('file now available in EDA');
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      setMessage('could not send file');
+    });
   };
 
   //To downlaod all the CSV content

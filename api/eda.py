@@ -3,29 +3,12 @@ from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 from IPython.core.interactiveshell import InteractiveShell
 from IPython.utils.capture import capture_output
-from fastapi.middleware.cors import CORSMiddleware
 import sys
 import io
 import os
 
 # Create an instance of InteractiveShell
 app = FastAPI()
-
-# Define the list of allowed origins
-origins = [
-    "http://localhost",
-    "http://localhost:8000",
-    "http://localhost:3000",
-]
-
-# Add CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 subDir = os.environ.get('NOTEBOOK_NAME')
 os.makedirs(subDir, exist_ok=True)
@@ -55,6 +38,8 @@ async def run(cell: Cell):
 
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
+    print("here")
+    print(os.path.join('./', file.filename))
     file_path = os.path.join('./', file.filename)
 
     # Save the uploaded file

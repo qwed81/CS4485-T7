@@ -19,6 +19,21 @@ JWKS = requests.get(JWKS_URL).json()
 
 app = FastAPI()
 
+# Define the list of allowed origins
+origins = [
+    "http://localhost",
+    "http://localhost:8000",
+    "http://localhost:3000",
+]
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # JWT Authentication Middleware
 @app.middleware("http")
